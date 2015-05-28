@@ -12,9 +12,27 @@
 */
 
 Route::get('/', 'HomeController@index');
-Route::get('/businesses', 'BusinessesController@index');
-Route::post('/users/create', 'UsersController@store');
-Route::get('/users/create', 'UsersController@create');
+/*****User*******/
+Route::post('/user/create', 'UsersController@store');
+Route::get('/user/create', 'UsersController@create');
+Route::get('/user/', 'UsersController@index');
+Route::get('/user/my','UsersController@my');
+Route::get('/user/business','UsersController@business');
+/*****Business*******/
+Route::post('/business/create', 'BusinessesController@store');
+Route::get('/business/create', 'BusinessesController@create');
+Route::get('/business/', 'BusinessesController@index');
+Route::get('/business/show/{id}', 'BusinessesController@show');
+/*****Profiles*******/
+Route::post('/profiles/create', 'ProfilesController@store');
+Route::get('/profiles/save', 'ProfilesController@save');
+
+Route::get('/profiles/create', 'ProfilesController@create');
+Route::get('/profiles/show/{id}', 'ProfilesController@show');
+
+
+
+
 
 
 

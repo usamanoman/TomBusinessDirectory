@@ -7,7 +7,7 @@
 	<title>Laravel</title>
 
 	<link href="{{ asset('/css/app.css') }}" rel="stylesheet">
-
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 	<!-- Fonts -->
 	<link href='//fonts.googleapis.com/css?family=Roboto:400,300' rel='stylesheet' type='text/css'>
 
@@ -28,17 +28,19 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="#">Laravel</a>
+				<a class="navbar-brand" href="#">User Profiler</a>
 			</div>
 
 			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav">
 					<li><a href="{{ url('/') }}">Home</a></li>
 					@if (!Auth::guest())
-						<li><a href="{{ url('/') }}">Add User</a></li>
-						<li><a href="{{ url('/') }}">Show Users</a></li>
-						<li><a href="{{ url('/') }}">Add Business</a></li>
-						<li><a href="{{ url('/') }}">Show Businesses</a></li>
+						<li><a href="{{ url('/user/create') }}">Add User</a></li>
+						<li><a href="{{ url('/user/') }}">Show Users</a></li>
+						<li><a href="{{ url('/business/create') }}">Add Business</a></li>
+						<li><a href="{{ url('/business/') }}">Show Businesses</a></li>
+						<li><a href="{{ url('/profiles/create') }}">Add Profile</a></li>
+
 					@endif
 				</ul>
 
@@ -47,6 +49,8 @@
 						<li><a href="{{ url('/auth/login') }}">Login</a></li>
 						<li><a href="{{ url('/auth/register') }}">Register</a></li>
 					@else
+						<li><a href="{{ url('/user/my') }}">My Profile</a></li>
+						<li><a href="{{ url('/user/business') }}">My Business</a></li>
 						<li class="dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{ Auth::user()->name }} <span class="caret"></span></a>
 							<ul class="dropdown-menu" role="menu">
@@ -64,5 +68,38 @@
 	<!-- Scripts -->
 	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.1/js/bootstrap.min.js"></script>
+	<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+	<script>
+		$(function() {
+			$( "#sortable" ).sortable();
+			$( "#sortable" ).disableSelection();
+			$(".sortable_submit").click(function(){
+				var jsonObj=[];
+				var sortedIDs = $( "#sortable" ).sortable( "toArray" );
+				var jStr='[';
+				for(var i=0 ; i< sortedIDs.length;i++){
+					    jStr+='{"id":'+ sortedIDs[i].split("###")[1]+","+'"value":'+ (i+1) +'},'
+				    
+				}
+				jStr = (jStr).slice(0,jStr.length-1);
+
+				jStr+="]";
+				console.log(jStr);
+				$.ajax({
+				  type: "GET",
+				  url: '{{ url("/profiles/save") }}',
+				  data:"data="+jStr,
+				  success: function(response){
+				  	if(response=="success"){
+				  		window.location.href='{{ url("/") }}';
+				  	}else{
+				  		$("#alarm-red").append("<p>Ops.! Some error occured, try again.</p>")
+				  	}
+				  },
+				});
+			});
+		});
+	</script>
+
 </body>
 </html>
