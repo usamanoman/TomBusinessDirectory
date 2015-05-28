@@ -33,7 +33,14 @@
 						<th>Phone</th>
 						<td>{{$business->phone}}</td>
 					</tr>
-					
+					<?php $i=0; ?>
+					@foreach($business->profiles as $profile)
+						<?php $i++; ?>
+						<tr>
+							<th>Link#{{$i}}</th>
+							<td>{{$profile->url}}</td>
+						</tr>
+					@endforeach
 				</table>
 			@else
 				<p>Ops..! No Details to display..</p>	

@@ -15,20 +15,34 @@ class UsersController extends Controller {
 		return view('users.my',compact('user'));
 	}
 	public function business(){
-		$business=Business::where('user_id',Auth::user()->id)->first();
-		return $business->profiles;
+		$business = Business::where('user_id',Auth::user()->id)->with(['profiles' => function($query)
+		{
+		    $query->orderBy('order');
+
+		}])->first();
+		return view('users.business',compact('business'));
+			
 	}
 	//
 	public function index(){
+		if(Auth::user()->id === 2){
+			return redirect('/');
+		}
 		$users=User::all();
 		//dd($users);
 		return view('users.index',compact('users'));
 	}
 	public function create(){
+		if(Auth::user()->id === 2){
+			return redirect('/');
+		}
 		return view('users.create');
 	}
 	public function store(Request $request)
 	{
+		if(Auth::user()->id === 2){
+			return redirect('/');
+		}
 		$user = new User();
 		$validator = $user->validator($request->all());
 

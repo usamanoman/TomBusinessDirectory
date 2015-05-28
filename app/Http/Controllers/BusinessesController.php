@@ -5,21 +5,30 @@ use App\Http\Controllers\Controller;
 use App\Business;
 use App\User;
 use Illuminate\Http\Request;
-
+use Auth;
 class BusinessesController extends Controller {
 
 	//
 
 	public function index(){
+		if(Auth::user()->id === 2){
+			return redirect('/');
+		}
 		$businesses=Business::all();
 		return view('business.index',compact('businesses'));
 	}
 	public function create(){
+		if(Auth::user()->id === 2){
+			return redirect('/');
+		}
 		$users = User::all();
 		return view('business.create',compact('users'));
 	}
 	public function store(Request $request)
 	{
+		if(Auth::user()->id === 2){
+			return redirect('/');
+		}
 		$business = new Business();
 		$validator = $business->validator($request->all());
 

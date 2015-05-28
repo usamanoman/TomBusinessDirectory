@@ -35,12 +35,13 @@
 				<ul class="nav navbar-nav">
 					<li><a href="{{ url('/') }}">Home</a></li>
 					@if (!Auth::guest())
+						@if(Auth::user()->status == 0)
 						<li><a href="{{ url('/user/create') }}">Add User</a></li>
 						<li><a href="{{ url('/user/') }}">Show Users</a></li>
 						<li><a href="{{ url('/business/create') }}">Add Business</a></li>
 						<li><a href="{{ url('/business/') }}">Show Businesses</a></li>
 						<li><a href="{{ url('/profiles/create') }}">Add Profile</a></li>
-
+						@endif
 					@endif
 				</ul>
 

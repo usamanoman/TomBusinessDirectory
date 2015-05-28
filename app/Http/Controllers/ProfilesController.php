@@ -5,17 +5,23 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Profile;
 use App\Business;
-
+use Auth;
 
 class ProfilesController extends Controller {
 
 	//
 
 	public function create(){
+		if(Auth::user()->id === 2){
+			return redirect('/');
+		}
 		$businesses = Business::all();
 		return view('profile.create',compact('businesses'));
 	}
 	public function store(Request $request){
+		if(Auth::user()->id === 2){
+			return redirect('/');
+		}
 		$profiles=Profile::where('business_id',$request['business_id'])->get();
 		if(count($profiles) >= 3){
 			return redirect('/');
@@ -40,6 +46,9 @@ class ProfilesController extends Controller {
 	}
 
 	public function show($id){
+		if(Auth::user()->id === 2){
+			return redirect('/');
+		}
 		$profiles=Profile::where('business_id',$id)->get();
 		return view('profile.index',compact('profiles')); 
 	}
