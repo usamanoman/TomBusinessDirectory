@@ -12,6 +12,11 @@
 */
 
 Route::get('/', 'HomeController@index');
+Route::get('/businesses', 'BusinessesController@index');
+Route::post('/users/create', 'UsersController@store');
+Route::get('/users/create', 'UsersController@create');
+
+
 
 Route::controllers([
 	'auth' => 'Auth\AuthController',
