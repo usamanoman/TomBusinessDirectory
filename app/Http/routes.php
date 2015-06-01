@@ -19,16 +19,23 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/user/', 'UsersController@index');
 	Route::get('/user/my','UsersController@my');
 	Route::get('/user/business','UsersController@business');
+	Route::get('/user/edit/{id}','UsersController@edit');
+	Route::post('/user/remove/{id}', 'UsersController@remove');
+	Route::post('/user/update/{id}', 'UsersController@update');
 	/*****Business*******/
 	Route::post('/business/create', 'BusinessesController@store');
 	Route::get('/business/create', 'BusinessesController@create');
 	Route::get('/business/', 'BusinessesController@index');
+	Route::get('/business/edit/{id}', 'BusinessesController@edit');
 	Route::get('/business/show/{id}', 'BusinessesController@show');
+	Route::post('/business/remove/{id}', 'BusinessesController@remove');
+	Route::post('/business/update/{id}', 'BusinessesController@update');
 	/*****Profiles*******/
 	Route::post('/profiles/create', 'ProfilesController@store');
 	Route::get('/profiles/save', 'ProfilesController@save');
 	Route::get('/profiles/create', 'ProfilesController@create');
 	Route::get('/profiles/show/{id}', 'ProfilesController@show');
+
 });
 
 

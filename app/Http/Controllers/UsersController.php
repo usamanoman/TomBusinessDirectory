@@ -23,6 +23,14 @@ class UsersController extends Controller {
 		return view('users.business',compact('business'));
 			
 	}
+
+	public function remove($id){
+		if(Auth::user()->id === 2){
+			return redirect('/');
+		}
+		User::destroy($id);
+		return redirect('/');
+	}
 	//
 	public function index(){
 		if(Auth::user()->id === 2){
@@ -37,6 +45,34 @@ class UsersController extends Controller {
 			return redirect('/');
 		}
 		return view('users.create');
+	}
+	public function edit($id){
+		if(Auth::user()->id === 2){
+			return redirect('/');
+		}
+		$user=User::find($id);
+		return view('users.edit',compact('user'));	
+	}
+
+
+	public function update($id,Request $request){
+		if(Auth::user()->id === 2){
+			return redirect('/');
+		}
+		$user=User::find($id);
+		$validator=$user->validator_update($_POST);
+		if(!$validator->fails()){
+			$user->email = $request['email'];
+			$user->password = base64_encode($request['password']);
+			$user->name = $request['name'];
+			$user->save();
+			return redirect('/');
+		}
+		else{
+			$this->throwValidationException(
+				$request, $validator
+			);
+		}
 	}
 	public function store(Request $request)
 	{

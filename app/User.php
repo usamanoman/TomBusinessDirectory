@@ -25,7 +25,8 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	 *
 	 * @var array
 	 */
-	protected $fillable = ['name', 'email', 'password','status'];
+	protected $guarded = ['id'];
+	//protected $fillable = ['name', 'email', 'password','status'];
 
 	/**
 	 * The attributes excluded from the model's JSON form.
@@ -38,8 +39,17 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	public function validator(array $data)
 	{
 		return Validator::make($data, [
-			'name' => 'required|max:255',
+			'name' => 'required|max:255|alpha',
 			'email' => 'required|email|max:255|unique:users',
+			'password' => 'required|confirmed|min:6',
+		]);
+	}
+
+	public function validator_update(array $data)
+	{
+		return Validator::make($data, [
+			'name' => 'required|max:255|alpha',
+			'email' => 'required|email|max:255',
 			'password' => 'required|confirmed|min:6',
 		]);
 	}

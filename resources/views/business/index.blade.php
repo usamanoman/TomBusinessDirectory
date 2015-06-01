@@ -12,6 +12,8 @@
 							<th>City</th>
 							<th>Address</th>
 							<th>Phone</th>
+							<th>Delete</th>
+							<th>Edit</th>
 							<th>Show Profile</th>
 							
 						</tr>
@@ -23,6 +25,12 @@
 							<td>{{ $business->city }}</td>
 							<td>{{ $business->address }}</td>
 							<td>{{ $business->phone }}</td>
+							<form action="business/remove/{{$business->id}}" method="POST" onsubmit="return confirm('Are you sure you want to delete?')">
+								<input type="hidden" name="_token" value="{{ csrf_token() }}">
+								<td> <input type="submit" value="Delete" name="submit"></td>
+							</form>
+							<td><a href="{{ url('/business/edit/'.$business->id) }}">Edit Business</a></td>
+							
 							<td><a href="{{ url('/profiles/show/'.$business->id) }}">Show Profiles</a></td>
 						</tr>
 				@endforeach
